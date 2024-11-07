@@ -15,9 +15,12 @@ void VxWorksConsole::writeMessage(const CHAR* message, const FwSizeType size) {
     // size_t is defined as different sizes on different platforms. Since FwSizeType is likely larger than size_t
     // on these platforms, and the user is unlikely to console-log more than size_t-max data, we cap the total
     // size at the limit of the interface.
-    FwSizeType capped_size = (size <= std::numeric_limits<size_t>::max()) ? size : std::numeric_limits<size_t>::max();
+    FwSizeType capped_size = (size < std::numeric_limits<size_t>::max())
+                                 ? size
+                                 : static_cast<FwSizeType>(std::numeric_limits<size_t>::max());
     if (message != nullptr) {
         (void)::fwrite(message, sizeof(CHAR), static_cast<size_t>(capped_size), this->m_handle.m_file_descriptor);
+        (void)::fflush(this->m_handle.m_file_descriptor);
     }
 }
 
