@@ -1,0 +1,29 @@
+# Set up
+Make sure to add the following to your project's `settings.ini` file:
+
+1. Add the path to `fprime-vxworks` to `library_locations`
+2. Add to `default_cmake_options` the following
+   ```cmake
+   VX_TARGET_TYPE=DKM
+   FPRIME_PLATFORM=VxWorks-Posix
+   ```
+3. Define `WIND_CC_SYSROOT` in the `environment` section. This variable should point to your project's VxWorks Build Source (VSB).
+
+# Example settings.ini
+This is an example for a project's `settings.ini` file that uses fprime-vxworks for POSIX. 
+```
+[fprime]
+project_root: .
+framework_path: ./lib/fprime
+library_locations: ./lib/fprime-vxworks
+config_directory: ./config
+default_toolchain: vxworks
+
+default_cmake_options:  FPRIME_ENABLE_FRAMEWORK_UTS=OFF
+                        FPRIME_ENABLE_AUTOCODER_UTS=OFF
+                        VX_TARGET_TYPE=DKM
+                        FPRIME_PLATFORM=VxWorks-Posix
+
+[environment]
+WIND_CC_SYSROOT: $HOME/projects/vxworks/vxworks-7-bsp-generator/bsp/VxWorks7-22.09-BeagleBoneBlack-Source
+```
