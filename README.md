@@ -9,6 +9,8 @@ Make sure to add the following to your project's `settings.ini` file:
    ```
 3. Define `WIND_CC_SYSROOT` in the `environment` section. This variable should point to your project's VxWorks Source Build (VSB).
 
+> NOTE: `VX_TARGET_TYPE`, `FPRIME_PLATFORM`, and `WIND_CC_SYSROOT` are required definitions by this VxWorks toolchain. 
+
 # Example settings.ini
 This is an example for a project's `settings.ini` file that uses fprime-vxworks for POSIX. 
 ```
