@@ -2,7 +2,7 @@
 Make sure to add the following to your project's `settings.ini` file:
 
 1. Add the path to `fprime-vxworks` to `library_locations`
-2. Add to `default_cmake_options` the following
+2. Add to `default_cmake_options` the following where `FPRIME_PLATFORM` is assigned to your selected platform (`VxWorks-Posix` in this case)
    ```cmake
    VX_TARGET_TYPE=DKM
    FPRIME_PLATFORM=VxWorks-Posix
