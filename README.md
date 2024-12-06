@@ -7,7 +7,7 @@ Make sure to add the following to your project's `settings.ini` file:
    VX_TARGET_TYPE=DKM
    FPRIME_PLATFORM=VxWorks-Posix
    ```
-3. Define `WIND_CC_SYSROOT` in the `environment` section. This variable should point to your project's VxWorks Build Source (VSB).
+3. Define `WIND_CC_SYSROOT` in the `environment` section. This variable should point to your project's VxWorks Source Build (VSB).
 
 # Example settings.ini
 This is an example for a project's `settings.ini` file that uses fprime-vxworks for POSIX. 
