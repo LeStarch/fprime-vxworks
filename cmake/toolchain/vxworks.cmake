@@ -16,7 +16,7 @@ if (NOT DEFINED ENV{WIND_CC_SYSROOT})
     message(FATAL_ERROR "User must define environment variable WIND_CC_SYSROOT")
 # Check VxWorks toolchain.cmake available in VSB
 elseif (NOT EXISTS "$ENV{WIND_CC_SYSROOT}/mk/toolchain.cmake")
-    message(FATAL_ERROR "VxWorks Source Build Malformed")
+	message(FATAL_ERROR "VxWorks Source Build Malformed. Cannot find $ENV{WIND_CC_SYSROOT}/mk/toolchain.cmake")
 endif()
 
 # Check must-have environment variables
