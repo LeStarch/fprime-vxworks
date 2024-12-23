@@ -69,26 +69,22 @@ def main():
             # The first file's symbols go into `names`
             names = symbols
             if verbose:
-                sys.stderr.write(f"Read {len(names)} useful symbols from {fpath}\n")
+                print(f"Read {len(names)} useful symbols from {fpath}")
         else:
             # All others are references: store them in `st` as "defined"
             for sym in symbols:
                 store[sym] = True
             if verbose:
-                sys.stderr.write(f"Read {len(symbols)} useful symbols from {fpath}\n")
+                print(f"Read {len(symbols)} useful symbols from {fpath}")
 
     # Now we determine which symbols are still missing
-    last_sym = None
     exitcode = 0
-
-    for sym in sorted(names):
-        if sym == last_sym:
-            continue
-        last_sym = sym
-        # Print only if not found in references
-        if sym not in store:
-            print(f"{sym}")
-            exitcode += 1
+    missing_symbols = list(set([symbol for symbol in names if symbol not in store]))
+    if missing_symbols:
+        print("[ERROR] Missing symbols detected:", file=sys.stderr)
+        for missing in missing_symbols:
+            print(f"    {missing}")
+        exitcode = 2
 
     sys.exit(exitcode)
 
@@ -100,30 +96,30 @@ def extract_useful_symbols_from(file, choice, nm_tool, verbose):
     """
 
     if verbose:
-        sys.stderr.write(
+        print(
             f"== About to extract useful {choice} symbols from \"{file}\"\n"
         )
     symbols = []
     # Binary file -> run nm
     try:
         proc = subprocess.Popen(
-            [nm_tool, "-u" if choice == UNDEF else "-U", "-C", "-j", file],
+            [nm_tool, "--undefined-only" if choice == UNDEF else "--defined-only", "-C", "--format=bsd", file],
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             text=True,
         )
     except OSError as e:
-        sys.stderr.write(f"Cannot open nm pipe for {file}: {e}\n")
+        print(f"Cannot open nm pipe for {file}: {e}", file=sys.stderr)
         sys.exit(1)
 
     for line in proc.stdout:
-        symbol = line.strip()
+        symbol = line[11:].strip()
         if symbol:
             symbols.append(symbol)
 
     proc.wait()
     if verbose:
-        sys.stderr.write(
+        print(
             f" == Extracted {len(symbols)} symbols from nm output of \"{file}\"\n"
         )
     return symbols
