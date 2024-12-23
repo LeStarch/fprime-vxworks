@@ -3,6 +3,7 @@
 #
 # VxWorks posix platform file for standard vxworks targets.
 ####
+register_fprime_target(target/vxvalidate)
 
 choose_fprime_implementation(Os/Console Os/Console/Posix)
 choose_fprime_implementation(Os/Cpu Os/Cpu/Stub)
